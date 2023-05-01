@@ -3,7 +3,8 @@ import { Poppins } from "next/font/google";
 import axios from "axios";
 
 const regularPoppins = Poppins({ weight: "400", subsets: ["latin"] });
-const AUTH_BACKEND_URL = "http://localhost:8000";
+// const AUTH_BACKEND_URL = "http://localhost:8000";
+const AUTH_BACKEND_URL = "http://orchestrator-service:8000"
 
 export default function Home(props) {
     const [username, setUsername] = useState(null);
