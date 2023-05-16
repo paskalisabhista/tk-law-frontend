@@ -5,8 +5,8 @@ import { useState } from "react";
 
 const semiBoldPoppins = Poppins({ weight: "600", subsets: ["latin"] });
 const regularPoppins = Poppins({ weight: "400", subsets: ["latin"] });
-// const AUTH_BACKEND_URL = "http://localhost:8000" // local
-const AUTH_BACKEND_URL = "http://orchestrator-service:8000"
+const AUTH_BACKEND_URL = "http://localhost:8000" // local
+// const AUTH_BACKEND_URL = "http://orchestrator-service:8000"
 
 
 export default function LoginForm() {
