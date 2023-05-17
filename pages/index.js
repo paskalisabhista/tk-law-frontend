@@ -36,13 +36,23 @@ export default function Home(props) {
             className={`${regularPoppins.className} flex justify-center mx-28 mt-12 min-w-max`}
         >
             <div className="space-y-8 w-[35rem] pt-[120px]">
-                <div className={`${boldPoppins.className} flex`}>
-                    <div className="text-9xl mr-4 text-#FF7E00">Fast</div>
+                <div className={`${boldPoppins.className} relative flex`}>
+                    <div className="text-9xl mr-4 text-[#FF7E00]">Fast</div>
                     <div className="flex text-5xl justify-center items-center">
                         Food <br></br> Delivery
                     </div>
+                    <div className="absolute min-w-fit right-1 -top-28 rotate-[18deg]">
+                        <Image
+                            className="min-w-fit min-h-fit"
+                            src="/rope.png"
+                            alt="Rope Image"
+                            width={140}
+                            height={176}
+                            priority
+                        ></Image>
+                    </div>
                 </div>
-                <div className="text-#909090 text-xl w-[35rem]">
+                <div className="text-[#909090] text-xl w-[35rem]">
                     Sed ut perspiciatis unde omnis iste natus sit voluptatem
                     accusantium doloremque laudantium
                 </div>
