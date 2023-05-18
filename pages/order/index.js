@@ -1,7 +1,9 @@
+import OrderContainer from "@/src/containers/OrderPage";
+
 export default function Menu() {
     return (
         <>
-            <p>Order page</p>
+            <OrderContainer/>
         </>
     );
 }
