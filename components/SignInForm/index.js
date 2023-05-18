@@ -1,8 +1,8 @@
-import axios from "axios";
 import { Poppins } from "next/font/google";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import useLogin from "@/utils/useLogin";
 
 const boldPoppins = Poppins({ weight: "700", subsets: ["latin"] });
 const semiBoldPoppins = Poppins({ weight: "600", subsets: ["latin"] });
@@ -13,30 +13,10 @@ const AUTH_BACKEND_URL = "http://localhost:8000"; // local
 export default function SignInForm() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const router = useRouter();
-    const url = `${AUTH_BACKEND_URL}/token/login`;
+    const { login } = useLogin()
 
     function handleSubmit() {
-        axios
-            .post(url, {
-                username: username,
-                password: password,
-            })
-            .then((res) => {
-                console.log(res.data);
-                console.log(res.data["access"]);
-                console.log(res.data["refresh"]);
-                localStorage.setItem("accessToken", res.data["access"]);
-                localStorage.setItem("refreshToken", res.data["refresh"]);
-                console.log(
-                    "accessToken from localStorage : " +
-                        localStorage.getItem("accessToken")
-                );
-                router.push("/");
-            })
-            .catch(function name(err) {
-                console.log(err);
-            });
+        login(username, password)
     }
 
     return (

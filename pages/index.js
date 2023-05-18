@@ -1,35 +1,25 @@
 import { useState, useEffect } from "react";
 import { Poppins } from "next/font/google";
-import axios from "axios";
 import Image from "next/image";
+import useLogin from "@/utils/useLogin";
 
 const regularPoppins = Poppins({ weight: "400", subsets: ["latin"] });
 const boldPoppins = Poppins({ weight: "700", subsets: ["latin"] });
-const AUTH_BACKEND_URL = "http://localhost:8000";
-// const AUTH_BACKEND_URL = "http://orchestrator-service:8000"
 
 export default function Home(props) {
     const [username, setUsername] = useState(null);
     const [role, setRole] = useState(null);
-    const url = `${AUTH_BACKEND_URL}/token/detail`;
+    const { detail } = useLogin();
 
     useEffect(() => {
-        const accessToken = localStorage.getItem("accessToken");
-
-        axios
-            .get(url, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            })
-            .then((res) => {
-                setUsername(res.data["username"]);
-                setRole(res.data["role"]);
-            })
-            .catch(function name(err) {
-                console.log(err);
-            });
-    }, []);
+        try {
+            const user = detail();
+            setUsername(user["username"]);
+            setRole(user["role"]);
+        } catch (err) {
+            console.log(err);
+        }
+    });
 
     return (
         <div
@@ -53,8 +43,7 @@ export default function Home(props) {
                     </div>
                 </div>
                 <div className="text-[#909090] text-xl w-[35rem]">
-                    Sed ut perspiciatis unde omnis iste natus sit voluptatem
-                    accusantium doloremque laudantium
+                    Username : {username}, Role : {role}
                 </div>
                 <div>
                     <button className="flex justify-center items-center bg-#2F2F2F text-#F4ECE1 w-48 h-16 rounded-[84px] text-xl drop-shadow-2xl">
