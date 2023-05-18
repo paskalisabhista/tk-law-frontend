@@ -1,7 +1,9 @@
+import MenuContainer from "@/src/containers/MenuPage";
+
 export default function Menu() {
     return (
         <>
-            <p>Menu page</p>
+            <MenuContainer/>
         </>
     );
 }
