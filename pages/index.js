@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Poppins } from "next/font/google";
 import Image from "next/image";
-import useLogin from "@/utils/useLogin";
+import useLogin from "@/src/utils/useLogin";
 
 const regularPoppins = Poppins({ weight: "400", subsets: ["latin"] });
 const boldPoppins = Poppins({ weight: "700", subsets: ["latin"] });

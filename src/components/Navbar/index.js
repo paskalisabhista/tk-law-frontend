@@ -1,7 +1,7 @@
 import { Poppins } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import useLogin from "@/utils/useLogin";
+import useLogin from "@/src/utils/useLogin";
 
 const semiBoldPoppins = Poppins({ weight: "600", subsets: ["latin"] });
 const regularPoppins = Poppins({ weight: "400", subsets: ["latin"] });

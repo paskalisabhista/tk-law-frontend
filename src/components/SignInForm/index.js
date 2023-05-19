@@ -2,7 +2,7 @@ import { Poppins } from "next/font/google";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import useLogin from "@/utils/useLogin";
+import useLogin from "@/src/utils/useLogin";
 
 const boldPoppins = Poppins({ weight: "700", subsets: ["latin"] });
 const semiBoldPoppins = Poppins({ weight: "600", subsets: ["latin"] });
@@ -66,7 +66,7 @@ export default function SignInForm() {
                     <div className="relative flex justify-center item-center mt-20">
                         <button
                             type="button"
-                            className={`${semiBoldPoppins.className}bottom-2 bg-#2F2F2F w-28 h-8 rounded-xl text-#F4ECE1 drop-shadow-2xl mt-10`}
+                            className={`${semiBoldPoppins.className}bottom-2 bg-[#2F2F2F] w-28 h-8 rounded-xl text-#F4ECE1 drop-shadow-2xl mt-10`}
                             onClick={() => handleSubmit()}
                         >
                             Log In

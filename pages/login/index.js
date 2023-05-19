@@ -1,4 +1,4 @@
-import SignInForm from "@/components/SignInForm";
+import SignInForm from "@/src/components/SignInForm";
 
 export default function Menu() {
     return (

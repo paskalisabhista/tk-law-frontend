@@ -1,4 +1,4 @@
-import SignUpForm from "@/components/SignUpForm";
+import SignUpForm from "@/src/components/SignUpForm";
 
 export default function Menu() {
     return (
