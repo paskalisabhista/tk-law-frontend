@@ -1,14 +1,21 @@
 import { Poppins } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import useLogin from "@/utils/useLogin";
 
 const semiBoldPoppins = Poppins({ weight: "600", subsets: ["latin"] });
 const regularPoppins = Poppins({ weight: "400", subsets: ["latin"] });
 
 export default function Navbar(props) {
+    const {logout} = useLogin()
+
+    function handleLogout() {
+        logout()
+    }
+
     return (
         <div
-            className={`${regularPoppins.className} flex px-20 h-24 w-full justify-start items-center text-xl`}
+            className={`${regularPoppins.className} flex px-20 h-24 w-full min-w-[1534px] justify-start items-center text-xl`}
         >
             <div className="flex space-x-2">
                 <Image
@@ -18,7 +25,7 @@ export default function Navbar(props) {
                     height={32}
                     priority
                 />
-                <div className={`${semiBoldPoppins.className} text-3xl`}>
+                <div className={`${semiBoldPoppins.className} text-3xl w-60`}>
                     Food App
                 </div>
             </div>
@@ -37,7 +44,7 @@ export default function Navbar(props) {
                 <Link className="border rounded-2xl border-#3A86FF flex h-10 items-center bg-#3A86FF text-white px-5" href={"/login"}>
                     <div>Login</div>
                 </Link>
-                <button className="h-10">Logout</button>
+                <button type="button" className="h-10" onClick={() => handleLogout()}>Logout</button>
             </div>
         </div>
     );

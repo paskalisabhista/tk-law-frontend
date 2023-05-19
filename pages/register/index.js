@@ -1,10 +1,10 @@
-import SignInForm from "@/components/SignInForm";
+import SignUpForm from "@/components/SignUpForm";
 
 export default function Menu() {
     return (
         <>
             <div className="mt-80 flex justify-center item-center">
-                <SignInForm />
+                <SignUpForm />
             </div>
         </>
     );
