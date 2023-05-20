@@ -2,9 +2,14 @@ import { useState, useEffect } from "react";
 import { Poppins } from "next/font/google";
 import Image from "next/image";
 import useLogin from "@/src/utils/useLogin";
+import Link from "next/link";
 
 const regularPoppins = Poppins({ weight: "400", subsets: ["latin"] });
 const boldPoppins = Poppins({ weight: "700", subsets: ["latin"] });
+
+export async function getStaticProps() {
+    return { props: { title: "Home" , withNavbar: true} };
+}
 
 export default function Home(props) {
     const [username, setUsername] = useState(null);
@@ -16,6 +21,7 @@ export default function Home(props) {
             const user = detail();
             setUsername(user["username"]);
             setRole(user["role"]);
+            console.log("home your role:" + role)
         } catch (err) {
             console.log(err);
         }
@@ -46,9 +52,9 @@ export default function Home(props) {
                     Username : {username}, Role : {role}
                 </div>
                 <div>
-                    <button className="flex justify-center items-center bg-#2F2F2F text-#F4ECE1 w-48 h-16 rounded-[84px] text-xl drop-shadow-2xl">
+                    <Link className="flex justify-center items-center bg-[#2F2F2F] text-[#F4ECE1] w-48 h-16 rounded-[84px] text-xl drop-shadow-2xl " href={"/order"}>
                         Order Now
-                    </button>
+                    </Link>
                 </div>
             </div>
             <div className="min-w-fit min-h-fit">

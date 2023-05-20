@@ -2,6 +2,9 @@ import axios from "axios";
 import { Poppins } from "next/font/google";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import useLogin from "@/src/utils/useLogin";
 
 const boldPoppins = Poppins({ weight: "700", subsets: ["latin"] });
 const semiBoldPoppins = Poppins({ weight: "600", subsets: ["latin"] });
@@ -12,12 +15,22 @@ export default function SignUpForm() {
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [role, setRole] = useState("");
+    const { register } = useLogin();
+
+    function handleRegister() {
+        register(username, password, passwordConfirmation, role);
+    }
 
     return (
         <>
             <div
                 className={`${regularPoppins.className} w-80 h-100 rounded-xl bg-[#fbf8f4] p-2`}
             >
+                <Link href={"/login"}>
+                    <div className="flex w-[16px] ml-2 mt-2">
+                        <img src="back.png"></img>
+                    </div>
+                </Link>
                 <div
                     className={`${boldPoppins.className} text-center mt-3 text-2xl text-[#FF7E00]`}
                 >
@@ -58,16 +71,21 @@ export default function SignUpForm() {
                             type="text"
                             className="border border-[#909090] text-center rounded-md"
                             id="username"
-                            value={username}
+                            value={passwordConfirmation}
                             placeholder="Password Confirmation"
-                            onChange={(e) => setPasswordConfirmation(e.target.value)}
+                            onChange={(e) =>
+                                setPasswordConfirmation(e.target.value)
+                            }
                         ></input>
                     </div>
                     <div className="flex flex-col">
                         <label className={`${semiBoldPoppins.className}`}>
                             Role
                         </label>
-                        <select className="border border-[#909090] text-center rounded-md" onChange={(e) => setRole(e.target.value)}>
+                        <select
+                            className="border border-[#909090] text-center rounded-md"
+                            onChange={(e) => setRole(e.target.value.toLowerCase())}
+                        >
                             <option disabled selected value>
                                 {" "}
                                 Choose role{" "}
@@ -81,8 +99,8 @@ export default function SignUpForm() {
                     <div className="relative flex justify-center item-center mt-20">
                         <button
                             type="button"
-                            className={`${semiBoldPoppins.className}bottom-2 bg-[#2F2F2F] w-28 h-8 rounded-xl text-#F4ECE1 drop-shadow-2xl mt-10`}
-                            onClick={() => handleSubmit()}
+                            className={`${semiBoldPoppins.className}bottom-2 bg-[#2F2F2F] w-28 h-8 rounded-xl text-[#F4ECE1] drop-shadow-2xl mt-10`}
+                            onClick={() => handleRegister()}
                         >
                             Register
                         </button>

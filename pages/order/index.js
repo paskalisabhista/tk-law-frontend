@@ -1,6 +1,10 @@
 import OrderContainer from "@/src/containers/OrderPage";
 
-export default function Menu() {
+export async function getStaticProps() {
+    return { props: { title: "Order" , withNavbar: true} };
+}
+
+export default function Order() {
     return (
         <>
             <OrderContainer/>

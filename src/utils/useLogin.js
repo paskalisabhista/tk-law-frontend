@@ -46,18 +46,18 @@ const useLogin = () => {
                 },
             })
             .then((res) => {
-                setUsername(res.data["username"])
-                setRole(res.data["role"])
+                setUsername(res.data["username"]);
+                setRole(res.data["role"]);
             })
             .catch(function name(err) {
-                console.log(err)
-                console.log("do refresh")
-                if (refresh()){
-                    console.log("inside if")
-                    detail()
+                console.log(err);
+                console.log("do refresh");
+                if (refresh()) {
+                    console.log("inside if");
+                    detail();
                 }
             });
-        return {username, role};
+        return { username, role };
     };
 
     const verify = () => {
@@ -109,13 +109,36 @@ const useLogin = () => {
         router.push("/login");
     };
 
+    const register = (username, password, passwordConfirmation, role) => {
+        const url = `${AUTH_BACKEND_URL}/token/register`;
+        axios
+            .post(url, {
+                username: username,
+                password: password,
+                password_confirmation: passwordConfirmation,
+                role: role,
+            })
+            .then((res) => {
+                console.log("Register succees!");
+                console.log(
+                    `Your username: ${res.data["username"]}, role as : ${res.data["role"]}`
+                );
+                router.push("/login");
+            })
+            .catch(function name(err) {
+                console.log(err);
+            });
+        
+    };
+
     return {
         isLoggedIn,
         login,
         detail,
         verify,
         refresh,
-        logout
+        logout,
+        register,
     };
 };
 
