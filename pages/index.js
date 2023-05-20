@@ -7,6 +7,10 @@ import Link from "next/link";
 const regularPoppins = Poppins({ weight: "400", subsets: ["latin"] });
 const boldPoppins = Poppins({ weight: "700", subsets: ["latin"] });
 
+export async function getStaticProps() {
+    return { props: { title: "Home" , withNavbar: true} };
+}
+
 export default function Home(props) {
     const [username, setUsername] = useState(null);
     const [role, setRole] = useState(null);
@@ -17,6 +21,7 @@ export default function Home(props) {
             const user = detail();
             setUsername(user["username"]);
             setRole(user["role"]);
+            console.log("home your role:" + role)
         } catch (err) {
             console.log(err);
         }

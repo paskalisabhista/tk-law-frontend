@@ -13,10 +13,11 @@ const AUTH_BACKEND_URL = "http://localhost:8000"; // local
 export default function SignInForm() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const { login } = useLogin()
+    const { login } = useLogin();
 
     function handleSubmit() {
-        login(username, password)
+        login(username, password);
+        alert("Login sukses!");
     }
 
     return (

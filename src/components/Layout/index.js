@@ -1,9 +1,10 @@
 import Navbar from "../Navbar";
+import useLogin from "@/src/utils/useLogin";
 
 export default function Layout({ children }) {
     return (
         <>
-            <Navbar></Navbar>
+            {children.props.withNavbar && <Navbar />}
             {children}
         </>
     );

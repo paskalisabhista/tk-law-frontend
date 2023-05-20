@@ -2,16 +2,32 @@ import { Poppins } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import useLogin from "@/src/utils/useLogin";
+import { useState, useEffect } from "react";
 
 const semiBoldPoppins = Poppins({ weight: "600", subsets: ["latin"] });
 const regularPoppins = Poppins({ weight: "400", subsets: ["latin"] });
 
 export default function Navbar(props) {
-    const {logout} = useLogin()
+    const [username, setUsername] = useState(null);
+    const [role, setRole] = useState(null);
+    const {logout, detail} = useLogin()
+    
+    useEffect(() => {
+        try {
+            const user = detail();
+            setUsername(user["username"]);
+            setRole(user["role"]);
+            console.log("navbar role: " + role)
+        } catch (err) {
+            console.log(err);
+        }
+    });
 
     function handleLogout() {
         logout()
     }
+
+    
 
     return (
         <div
@@ -26,7 +42,7 @@ export default function Navbar(props) {
                     priority
                 />
                 <div className={`${semiBoldPoppins.className} text-3xl w-60`}>
-                    Food App
+                    LAW Cafe
                 </div>
             </div>
 
@@ -41,10 +57,13 @@ export default function Navbar(props) {
                 <Link className="flex h-10 items-center" href={"/order"}>
                     <div>Order</div>
                 </Link>
-                <Link className="border rounded-2xl border-[#3A86FF] flex h-10 items-center bg-[#3A86FF] text-white px-5" href={"/login"}>
-                    <div>Login</div>
+                <Link className={`${role == "Admin"? "" : "hidden"} flex h-10 items-center`} href={"/dashboard"}>
+                    <div>Dashboard</div>
                 </Link>
-                <button type="button" className="h-10" onClick={() => handleLogout()}>Logout</button>
+                {/* <Link className="border rounded-2xl border-[#3A86FF] flex h-10 items-center bg-[#3A86FF] text-white px-5" href={"/login"}>
+                    <div>Login</div>
+                </Link> */}
+                <button type="button" className="h-10 rounded-[84px] px-5 bg-[#E63946] text-white opacity-75" onClick={() => handleLogout()}>Logout</button>
             </div>
         </div>
     );
