@@ -41,7 +41,7 @@ export default function Navbar(props) {
                 <Link className="flex h-10 items-center" href={"/order"}>
                     <div>Order</div>
                 </Link>
-                <Link className="border rounded-2xl border-#3A86FF flex h-10 items-center bg-#3A86FF text-white px-5" href={"/login"}>
+                <Link className="border rounded-2xl border-[#3A86FF] flex h-10 items-center bg-[#3A86FF] text-white px-5" href={"/login"}>
                     <div>Login</div>
                 </Link>
                 <button type="button" className="h-10" onClick={() => handleLogout()}>Logout</button>

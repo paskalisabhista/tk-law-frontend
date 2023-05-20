@@ -66,7 +66,7 @@ export default function SignInForm() {
                     <div className="relative flex justify-center item-center mt-20">
                         <button
                             type="button"
-                            className={`${semiBoldPoppins.className}bottom-2 bg-[#2F2F2F] w-28 h-8 rounded-xl text-#F4ECE1 drop-shadow-2xl mt-10`}
+                            className={`${semiBoldPoppins.className}bottom-2 bg-[#2F2F2F] w-28 h-8 rounded-xl text-[#F4ECE1] drop-shadow-2xl mt-10`}
                             onClick={() => handleSubmit()}
                         >
                             Log In
