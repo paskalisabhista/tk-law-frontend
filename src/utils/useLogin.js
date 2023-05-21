@@ -54,7 +54,7 @@ const useLogin = () => {
                 console.log("do refresh");
                 if (refresh()) {
                     console.log("inside if");
-                    detail();
+                    detail();                    
                 }
             });
         return { username, role };
@@ -85,9 +85,10 @@ const useLogin = () => {
                 refresh: refreshToken,
             })
             .then((res) => {
+                console.log("refresh success!")
                 localStorage.setItem("accessToken", res.data["access"]);
-                localStorage.setItem("refreshToken", res.data["refresh"]);
                 isRefreshed = true;
+                window.location.reload(true)           
             })
             .catch(function name(err) {
                 console.log("Please relog your account");
