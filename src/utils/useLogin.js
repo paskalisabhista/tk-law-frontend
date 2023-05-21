@@ -8,8 +8,8 @@ const AUTH_BACKEND_URL = "http://localhost:8000"; // local
 const useLogin = () => {
     const router = useRouter();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [username, setUsername] = useState(null);
-    const [role, setRole] = useState(null);
+    // const [username, setUsername] = useState(null);
+    // const [role, setRole] = useState(null);
 
     const login = async (username, password) => {
         const url = `${AUTH_BACKEND_URL}/token/login`;
@@ -36,18 +36,23 @@ const useLogin = () => {
             });
     };
 
-    const detail = () => {
+    const detail = async () => {
         const url = `${AUTH_BACKEND_URL}/token/detail`;
         const accessToken = localStorage.getItem("accessToken");
-        axios
+        let username;
+        let role;
+
+        await axios
             .get(url, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             })
             .then((res) => {
-                setUsername(res.data["username"]);
-                setRole(res.data["role"]);
+                username = res.data["username"]
+                role = res.data["role"]
+                // setUsername(res.data["username"]);
+                // setRole(res.data["role"]);
             })
             .catch(function name(err) {
                 console.log(err);

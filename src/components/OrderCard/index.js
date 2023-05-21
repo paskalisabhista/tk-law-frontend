@@ -1,8 +1,8 @@
 import { Poppins } from "next/font/google";
-import Link from "next/link";
 import useLogin from "@/src/utils/useLogin";
 import { useState, useEffect } from "react";
-import { render } from "react-dom";
+import { AUTH_BACKEND_URL } from "@/src/utils/api";
+import axios from "axios";
 
 const boldPoppins = Poppins({ weight: "700", subsets: ["latin"] });
 const semiBoldPoppins = Poppins({ weight: "600", subsets: ["latin"] });
@@ -10,23 +10,45 @@ const regularPoppins = Poppins({ weight: "400", subsets: ["latin"] });
 
 export default function OrderCard() {
     const [username, setUsername] = useState(null);
-    const [role, setRole] = useState(null);
     const [phoneNumber, setPhoneNumber] = useState(null);
     const [address, setAddress] = useState(null);
     const [menu, setMenu] = useState(null);
-    const [quantity, setQuantity] = useState(0);
+    const [quantity, setQuantity] = useState(1);
+    const [price, setPrice] = useState(0);
     const [order, setOrder] = useState({});
+    const [menuList, setMenuList] = useState([]);
     const { detail } = useLogin();
 
     useEffect(() => {
+        getDetail();
+        fetchData();
+    }, []);
+
+    const getDetail = async () => {
         try {
-            const user = detail();
-            setUsername(user["username"]);
-            setRole(user["role"]);
+            await detail().then((res) => {
+                console.log(res);
+                setUsername(res["username"]);
+            });
         } catch (err) {
             console.log(err);
         }
-    });
+    };
+
+    const fetchData = async () => {
+        const accessToken = localStorage.getItem("accessToken");
+        const url = `${AUTH_BACKEND_URL}/menu`;
+        const response = await axios
+            .get(url, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
+            .catch(function name(err) {
+                console.log(err);
+            });
+        setMenuList(response.data);
+    };
 
     function handleAddOrder() {
         if (menu === null) {
@@ -39,24 +61,28 @@ export default function OrderCard() {
 
     const renderTable = () => {
         return Object.keys(order).length > 0 ? (
-            <tr className="border">
+            <>
                 <th>Menu</th>
                 <th>Qty</th>
                 <th>Price</th>
-            </tr>
+            </>
         ) : (
             ""
         );
     };
 
     const renderValues = () => {
-        return Object.entries(order).map(([key, values]) => (
-            <tr>
-                <td>{key}</td>
-                <td>{values}</td>
-                <td>10 000</td>
-            </tr>
-        ));
+        return Object.keys(order).length > 0
+            ? Object.entries(order).map(([key, values]) => (
+                  <>
+                      <tr>
+                          <td>{key}</td>
+                          <td>{values}</td>
+                          <td>10000</td>
+                      </tr>
+                  </>
+              ))
+            : "";
     };
 
     return (
@@ -112,7 +138,10 @@ export default function OrderCard() {
                             <td>
                                 <select
                                     className="border border-[#909090] text-center rounded-md"
-                                    onChange={(e) => setMenu(e.target.value)}
+                                    onChange={(e) => {
+                                        setMenu(e.target.value);
+                                        setPrice(e.target.id);
+                                    }}
                                 >
                                     <option
                                         disabled
@@ -123,20 +152,20 @@ export default function OrderCard() {
                                         {" "}
                                         Choose Menu{" "}
                                     </option>
-                                    <option className="w-full">
-                                        Bihun Goreng
-                                    </option>
-                                    <option className="w-full">
-                                        Kwetiau Kuah
-                                    </option>
-                                    <option className="w-full">
-                                        Soto Kuah
-                                    </option>
+                                    {menuList.map((item) => (
+                                        <option
+                                            className="w-full"
+                                            id={item.price}
+                                        >
+                                            {item.name}
+                                        </option>
+                                    ))}
                                 </select>
                             </td>
                             <td>
                                 <input
                                     type="number"
+                                    min="1"
                                     className="border w-[36px] border-[#909090] text-center rounded-md"
                                     value={quantity}
                                     onChange={(e) =>
@@ -159,7 +188,7 @@ export default function OrderCard() {
                     </table>
                     <br></br>
                     <table className="text-center bg-white border">
-                        {renderTable()}
+                        <tr>{renderTable()}</tr>
                         {renderValues()}
                     </table>
                 </div>
