@@ -49,7 +49,8 @@ export default function Home(props) {
                     </div>
                 </div>
                 <div className="text-[#909090] text-xl w-[35rem]">
-                    Username : {username}, Role : {role}
+                    <h3>Hi, {username}</h3>
+                    <h4>Kamu di sini sebagai: {role}</h4>
                 </div>
                 <div>
                     <Link className="flex justify-center items-center bg-[#2F2F2F] text-[#F4ECE1] w-48 h-16 rounded-[84px] text-xl drop-shadow-2xl " href={"/order"}>
