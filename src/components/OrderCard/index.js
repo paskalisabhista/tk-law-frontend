@@ -14,7 +14,7 @@ export default function OrderCard() {
     const [address, setAddress] = useState(null);
     const [menu, setMenu] = useState(null);
     const [quantity, setQuantity] = useState(1);
-    const [price, setPrice] = useState(0);
+    const [menuPrice, setMenuPrice] = useState({});
     const [order, setOrder] = useState({});
     const [menuList, setMenuList] = useState([]);
     const { detail } = useLogin();
@@ -27,7 +27,6 @@ export default function OrderCard() {
     const getDetail = async () => {
         try {
             await detail().then((res) => {
-                console.log(res);
                 setUsername(res["username"]);
             });
         } catch (err) {
@@ -59,6 +58,16 @@ export default function OrderCard() {
         setOrder(updatedOrder);
     }
 
+    function getMenuPrice(name) {
+        let price;
+        menuList.map((item) => {
+            if (item.name === name) {
+                price = item.price;
+            }
+        });
+        return price;
+    }
+
     const renderTable = () => {
         return Object.keys(order).length > 0 ? (
             <>
@@ -78,7 +87,7 @@ export default function OrderCard() {
                       <tr>
                           <td>{key}</td>
                           <td>{values}</td>
-                          <td>10000</td>
+                          <td>{getMenuPrice(key) * values}</td>
                       </tr>
                   </>
               ))
@@ -138,10 +147,7 @@ export default function OrderCard() {
                             <td>
                                 <select
                                     className="border border-[#909090] text-center rounded-md"
-                                    onChange={(e) => {
-                                        setMenu(e.target.value);
-                                        setPrice(e.target.id);
-                                    }}
+                                    onChange={(e) => setMenu(e.target.value)}
                                 >
                                     <option
                                         disabled
