@@ -17,15 +17,20 @@ export default function Home(props) {
     const { detail } = useLogin();
 
     useEffect(() => {
+        getDetail()
+    }, []);
+
+    const getDetail = async () => {
         try {
-            const user = detail();
-            setUsername(user["username"]);
-            setRole(user["role"]);
-            console.log("home your role:" + role)
+            await detail().then((res) => {
+                console.log(res);
+                setUsername(res["username"]);
+                setRole(res["role"]);
+            });
         } catch (err) {
             console.log(err);
         }
-    });
+    };
 
     return (
         <div

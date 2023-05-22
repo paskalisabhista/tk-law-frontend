@@ -28,7 +28,7 @@ export default function SignUpForm() {
             >
                 <Link href={"/login"}>
                     <div className="flex w-[16px] ml-2 mt-2">
-                        <img src="back.png"></img>
+                        <img src="back-icon.png"></img>
                     </div>
                 </Link>
                 <div
@@ -70,7 +70,7 @@ export default function SignUpForm() {
                         <input
                             type="text"
                             className="border border-[#909090] text-center rounded-md"
-                            id="username"
+                            id="passwordConfirmation"
                             value={passwordConfirmation}
                             placeholder="Password Confirmation"
                             onChange={(e) =>

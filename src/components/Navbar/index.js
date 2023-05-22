@@ -17,7 +17,6 @@ export default function Navbar(props) {
             const user = detail();
             setUsername(user["username"]);
             setRole(user["role"]);
-            console.log("navbar role: " + role)
         } catch (err) {
             console.log(err);
         }
