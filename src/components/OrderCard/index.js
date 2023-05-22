@@ -14,7 +14,11 @@ export default function OrderCard() {
     const [address, setAddress] = useState(null);
     const [menu, setMenu] = useState(null);
     const [quantity, setQuantity] = useState(1);
-    const [menuPrice, setMenuPrice] = useState({});
+
+    const [coupon, setCoupon] = useState(null);
+    const [couponStatus, setCouponStatus] = useState(null);
+    const [couponAmount, setCouponAmout] = useState(0);
+
     const [order, setOrder] = useState({});
     const [menuList, setMenuList] = useState([]);
     const { detail } = useLogin();
@@ -58,6 +62,69 @@ export default function OrderCard() {
         setOrder(updatedOrder);
     }
 
+    async function handleCheckCoupon() {
+        const accessToken = localStorage.getItem("accessToken");
+        const url = `${AUTH_BACKEND_URL}/coupons/${coupon}`;
+        const response = await axios
+            .get(url, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
+            .catch(function name(err) {
+                console.log(err);
+                return null;
+            });
+        if (response === null) {
+            setCouponStatus(false);
+            setCouponAmout(0);
+        } else {
+            setCouponStatus(!response.data.is_redeemed);
+            setCouponAmout(response.data.amount);
+        }
+    }
+
+    async function handleSubmitOrder() {
+        const accessToken = localStorage.getItem("accessToken");
+        const url = `${AUTH_BACKEND_URL}/order`;
+        let menuArr = [];
+        let qtyArr = [];
+        let priceArr = [];
+        Object.entries(order).map(([key, values]) => {
+            menuArr.push(key);
+            qtyArr.push(parseInt(values));
+            priceArr.push(getMenuPrice(key));
+        });
+        // console.log(menuArr);
+        // console.log(qtyArr);
+        let request = {
+            name: username,
+            phone: phoneNumber,
+            address: address,
+            menu: menuArr,
+            quantity: qtyArr,
+            price: priceArr,
+            coupon_discount: couponAmount,
+        };
+        console.log("=====");
+        console.log(request);
+        const response = await axios
+            .post(url, request, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            })
+            .catch(function name(err) {
+                console.log(err);
+                return null;
+            });
+        if (response === null) {
+            console.log("no items found");
+        } else {
+            console.log(response.data);
+        }
+    }
+
     function getMenuPrice(name) {
         let price;
         menuList.map((item) => {
@@ -92,6 +159,31 @@ export default function OrderCard() {
                   </>
               ))
             : "";
+    };
+
+    const renderCouponStatus = () => {
+        if (couponStatus == null) {
+            return <></>;
+        }
+        return couponStatus ? (
+            <>
+                <div className={`${regularPoppins.className} text-xs mt-3`}>
+                    This Coupon Available
+                </div>
+                <div
+                    className={`${semiBoldPoppins.className} flex flex-col text-xs mt-3 text-center`}
+                >
+                    Amount
+                    <p className="text-green">Rp {couponAmount}</p>
+                </div>
+            </>
+        ) : (
+            <>
+                <div className={`${regularPoppins.className} text-xs mt-3`}>
+                    This Coupon Unavailable
+                </div>
+            </>
+        );
     };
 
     return (
@@ -200,18 +292,47 @@ export default function OrderCard() {
                 </div>
             </form>
             <div className="grow"></div>
-            <div className="flex w-full p-2 space-x-10 justify-self-end">
-                <div className="flex w-[204px] h-full justify-center">
-                    coupon
-                </div>
-                <div className="flex flex-col w-[300px] h-full items-center">
-                    <button
-                        type="button"
-                        className={`${semiBoldPoppins.className} bottom-2 bg-[#2F2F2F] w-28 h-8 rounded-xl text-[#F4ECE1] drop-shadow-2xl`}
-                        onClick={() => handleSubmitOrder()}
+            <div className="flex w-full h-fit p-2 space-x-10 justify-self-end ">
+                <div
+                    className={`${semiBoldPoppins.className} ${
+                        couponStatus ? "bg-[#D0F5BE]" : "bg-white"
+                    } flex flex-col w-[204px] h-full justify-center border rounded-xl`}
+                >
+                    <label
+                        className={`${semiBoldPoppins.className} text-center`}
                     >
-                        Order
-                    </button>
+                        Coupon
+                    </label>
+                    <div className="flex flex-col items-center p-1">
+                        <div>
+                            <input
+                                type="text"
+                                className={`${regularPoppins.className} border border-[#909090] text-center rounded-md w-20 h-full`}
+                                value={coupon}
+                                placeholder="Code"
+                                onChange={(e) => setCoupon(e.target.value)}
+                            ></input>
+                            <button
+                                type="button"
+                                className={`${semiBoldPoppins.className} bottom-2 bg-[#3A86FF] text-white rounded-xl drop-shadow-2xl ml-2 p-2 text-xs`}
+                                onClick={() => handleCheckCoupon()}
+                            >
+                                Check
+                            </button>
+                        </div>
+                        <div>{renderCouponStatus()}</div>
+                    </div>
+                </div>
+                <div className="flex flex-col w-[300px] h-fit items-center">
+                    <div>
+                        <button
+                            type="button"
+                            className={`${semiBoldPoppins.className} bottom-0 bg-[#2F2F2F] w-28 h-8 rounded-xl text-[#F4ECE1] drop-shadow-2xl`}
+                            onClick={() => handleSubmitOrder()}
+                        >
+                            Order
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

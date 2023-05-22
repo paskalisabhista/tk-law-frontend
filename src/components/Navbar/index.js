@@ -13,14 +13,20 @@ export default function Navbar(props) {
     const {logout, detail} = useLogin()
     
     useEffect(() => {
+        getDetail()
+    }, []);
+
+    const getDetail = async () => {
         try {
-            const user = detail();
-            setUsername(user["username"]);
-            setRole(user["role"]);
+            await detail().then((res) => {
+                console.log(res);
+                setUsername(res["username"]);
+                setRole(res["role"]);
+            });
         } catch (err) {
             console.log(err);
         }
-    });
+    };
 
     function handleLogout() {
         logout()
