@@ -38,7 +38,7 @@ export default function OrderCard(props) {
                 >
                     <div className="w-1/2">Menu</div>
                     <div className="w-1/4">Qty</div>
-                    <div className="w-1/4 text-center">Price</div>
+                    <div className="w-1/4 text-center">Price/q</div>
                 </div>
                 <div className="flex flex-row space-x-2">
                     <div className="w-1/2">
