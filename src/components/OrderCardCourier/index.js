@@ -1,24 +1,44 @@
+import { useRouter } from "next/router";
+import axios from "axios";
 import { Poppins } from "next/font/google";
+import { AUTH_BACKEND_URL } from "@/src/utils/api";
 
 const boldPoppins = Poppins({ weight: "700", subsets: ["latin"] });
 const semiBoldPoppins = Poppins({ weight: "600", subsets: ["latin"] });
 const regularPoppins = Poppins({ weight: "400", subsets: ["latin"] });
 
-export default function OrderCard(props) {
+export default function OrderCardCourier(props) {
+    const router = useRouter();
+
+    async function handleDone(id) {
+        const accessToken = localStorage.getItem("accessToken");
+        const url = `${AUTH_BACKEND_URL}/order/courier`;
+        await axios
+            .put(
+                url,
+                {
+                    order_id: id,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            )
+            .catch(function name(err) {
+                console.log(err);
+            });
+        router.reload();
+    }
+
     return (
         <div
-            className={`${regularPoppins.className} flex flex-col ${
-                props.data.status === "Delivered" ? "bg-[#D0F5BE]" : ""
-            } ${
-                props.data.status === "Delivering your order"
-                    ? "bg-[#fff3b0]"
-                    : ""
-            } ${
-                props.data.status === "Preparing your order"
-                    ? "bg-[#fbf8f4]"
-                    : ""
-            } min-h-[300px] w-[325px] m-4 border border-black rounded-xl p-3 drop-shadow-2xl`}
+            className={`${regularPoppins.className} flex flex-col bg-[#fbf8f4] min-h-[300px] w-[325px] m-4 border border-black rounded-xl p-3 drop-shadow-2xl`}
         >
+            <div>
+                <label className={`${semiBoldPoppins.className}`}>Name:</label>
+                <div>{props.data.name}</div>
+            </div>
             <div>
                 <label className={`${semiBoldPoppins.className}`}>
                     Phone number:
@@ -87,6 +107,16 @@ export default function OrderCard(props) {
                         {props.data.status}
                     </div>
                 </div>
+            </div>
+            <div className="flex flex-col items-center">
+                <button
+                    type="button"
+                    id={props.data.id}
+                    className={`${semiBoldPoppins.className} bottom-0 bg-[#2F2F2F] w-28 h-8 rounded-xl text-[#F4ECE1] drop-shadow-2xl`}
+                    onClick={(e) => handleDone(e.target.id)}
+                >
+                    Done
+                </button>
             </div>
         </div>
     );

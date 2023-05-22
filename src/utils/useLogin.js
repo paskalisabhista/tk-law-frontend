@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-
-const AUTH_BACKEND_URL = "http://localhost:8000"; // local
-// const AUTH_BACKEND_URL = "http://orchestrator-service:8000"
+import { AUTH_BACKEND_URL } from "./api";
 
 const useLogin = () => {
     const router = useRouter();
@@ -51,8 +49,6 @@ const useLogin = () => {
             .then((res) => {
                 username = res.data["username"]
                 role = res.data["role"]
-                // setUsername(res.data["username"]);
-                // setRole(res.data["role"]);
             })
             .catch(function name(err) {
                 console.log(err);

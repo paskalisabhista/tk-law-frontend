@@ -36,7 +36,7 @@ export default function Navbar(props) {
 
     return (
         <div
-            className={`${regularPoppins.className} flex px-20 h-24 w-full min-w-[1534px] justify-start items-center text-xl`}
+            className={`${regularPoppins.className} flex px-20 h-24 w-full min-w-[1313px] justify-start items-center text-xl`}
         >
             <div className="flex space-x-2">
                 <Image
@@ -65,9 +65,6 @@ export default function Navbar(props) {
                 <Link className={`${role == "Admin"? "" : "hidden"} flex h-10 items-center`} href={"/dashboard"}>
                     <div>Dashboard</div>
                 </Link>
-                {/* <Link className="border rounded-2xl border-[#3A86FF] flex h-10 items-center bg-[#3A86FF] text-white px-5" href={"/login"}>
-                    <div>Login</div>
-                </Link> */}
                 <button type="button" className="h-10 rounded-[84px] px-5 bg-[#E63946] text-white opacity-75" onClick={() => handleLogout()}>Logout</button>
             </div>
         </div>
