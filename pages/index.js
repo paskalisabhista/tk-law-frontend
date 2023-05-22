@@ -34,7 +34,7 @@ export default function Home(props) {
 
     return (
         <div
-            className={`${regularPoppins.className} flex justify-center mx-28 mt-12 min-w-max`}
+            className={`${regularPoppins.className} flex justify-center mt-12 min-w-max`}
         >
             <div className="space-y-8 w-[35rem] pt-[120px]">
                 <div className={`${boldPoppins.className} relative flex`}>
